@@ -9,7 +9,8 @@ const CardComponent = styled.div`
   top: ${props => props.y}px;
   width: 200px;
   height: 200px;
-  border: 2px solid black;
+  background-color: #e8ad0c;
+  border: 1px solid black;
   transition: transform 0.1s;
   
   ${props => props.onDrag && css`
