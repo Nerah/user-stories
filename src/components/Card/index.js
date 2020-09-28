@@ -41,9 +41,9 @@ function StaticCard(props) {
 
 const CardReactable = reactable(StaticCard);
 
-export default function Card({name, description}) {
+export default function Card({name, description, posX = 300, posY = 300}) {
   const [coordinate, setCoordinate] = useState({
-    x: 300, y: 300
+    x: posX, y: posY
   })
   const [dragState, setDragState] = useState(false);
 
