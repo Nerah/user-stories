@@ -22,9 +22,7 @@ function App() {
     <div className="App">
       <GlobalStyle/>
       <Header/>
-      <Zone>
-        <Card name={"Default name"} description={"Default description that is way too long, because I'm talking about anything, everytime, everywhere. I can talk like that for hours. I always think I haven't talk since it's been years."}/>
-      </Zone>
+      <Zone/>
     </div>
   );
 }
