@@ -13,11 +13,17 @@ const CardComponent = styled.div.attrs(props => ({
   position: absolute;
   width: 200px;
   height: 200px;
+  padding: 3px;
   background-color: #e8ad0c;
   border: 1px solid black;
   transition: transform 0.1s;
   transform: scale(1.2);
   touch-action: none;
+  
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
 `;
 
 function StaticCard(props) {
@@ -25,7 +31,10 @@ function StaticCard(props) {
       <CardComponent ref={props.getRef}
                      x={props.x}
                      y={props.y}
-                     dragState={props.dragState}/>
+                     dragState={props.dragState}>
+        <h2>{props.name}</h2>
+        <p>{props.description}</p>
+      </CardComponent>
   );
 }
 
@@ -60,6 +69,8 @@ export default function Card() {
           x={coordinate.x}
           y={coordinate.y}
           dragState={dragState}
+          name={"Default name"}
+          description={"Default description that is way too long, because I'm talking about anything, everytime, everywhere. I can talk like that for hours. I always think I haven't talk since it's been years."}
       />
   )
 }
