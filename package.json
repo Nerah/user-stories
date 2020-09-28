@@ -5,6 +5,7 @@
   "dependencies": {
     "interactjs": "^1.9.22",
     "react": "^16.13.1",
+    "react-contextmenu": "^2.14.0",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "reactablejs": "^0.2.0",
