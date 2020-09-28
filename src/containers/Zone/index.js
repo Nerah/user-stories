@@ -18,6 +18,9 @@ function StaticZone({children, ...props}) {
 
 const ZoneReactable = reactable(StaticZone);
 
+const DEFAULT_NAME = "DEFAULT_NAME";
+const DEFAULT_DESCRIPTION = "DEFAULT_DESCRIPTION";
+
 export default function Zone() {
   return (
       <ZoneReactable
@@ -25,7 +28,7 @@ export default function Zone() {
             console.log("create new card!")
           }}
       >
-        <Card name={"Default name"} description={"Default description that is way too long, because I'm talking about anything, everytime, everywhere. I can talk like that for hours. I always think I haven't talk since it's been years."}/>
+        <Card name={DEFAULT_NAME} description={DEFAULT_DESCRIPTION}/>
       </ZoneReactable>
   )
 }
