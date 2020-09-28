@@ -1,22 +1,23 @@
 import React, {useState} from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import reactable from 'reactablejs';
 import interact from 'interactjs';
 
-const CardComponent = styled.div`
+const CardComponent = styled.div.attrs(props => ({
+  style: {
+    left: props.x,
+    top: props.y,
+    boxShadow: props.dragState && "-7px 7px 23px 0px rgba(0,0,0,0.75)",
+  }
+}))`
   position: absolute;
-  left: ${props => props.x}px;
-  top: ${props => props.y}px;
   width: 200px;
   height: 200px;
   background-color: #e8ad0c;
   border: 1px solid black;
   transition: transform 0.1s;
-  
-  ${props => props.dragState && css`
-    box-shadow: -7px 7px 23px 0px rgba(0,0,0,0.75);
-    transform: scale(1.2);
-  `}
+  transform: scale(1.2);
+  touch-action: none;
 `;
 
 function StaticCard(props) {
