@@ -47,7 +47,9 @@ export default function Zone() {
   }
 
   const deleteCard = (cardId) => {
-    console.log(cardId)
+    setCards(prevState => prevState.filter((card) => {
+      return card.props.id !== cardId
+    }))
   }
 
   return (
