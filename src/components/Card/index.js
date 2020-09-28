@@ -42,14 +42,18 @@ function StaticCard(props) {
 
 const CardReactable = reactable(StaticCard);
 
-export default function Card({id, name, description, posX = 300, posY = 300}) {
+export default function Card({id, name, description, posX = 300, posY = 300, editCard, deleteCard}) {
   const [coordinate, setCoordinate] = useState({
     x: posX, y: posY
   })
   const [dragState, setDragState] = useState(false);
 
-  const handleClick = (e, data) => {
-    console.log(data.foo);
+  const handleEdit = (e, data) => {
+    editCard(data.card);
+  }
+
+  const handleDelete = (e, data) => {
+    deleteCard(data.card);
   }
 
   return (
@@ -83,15 +87,11 @@ export default function Card({id, name, description, posX = 300, posY = 300}) {
         </ContextMenuTrigger>
 
         <ContextMenu id={`card_menu_${id}`}>
-          <MenuItem data={{foo: 'bar'}} onClick={handleClick}>
-            ContextMenu Item 1
+          <MenuItem data={{card: id}} onClick={handleEdit}>
+            Edit
           </MenuItem>
-          <MenuItem data={{foo: 'bar'}} onClick={handleClick}>
-            ContextMenu Item 2
-          </MenuItem>
-          <MenuItem divider />
-          <MenuItem data={{foo: 'bar'}} onClick={handleClick}>
-            ContextMenu Item 3
+          <MenuItem data={{card: id}} onClick={handleDelete}>
+            Delete
           </MenuItem>
         </ContextMenu>
       </>

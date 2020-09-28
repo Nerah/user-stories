@@ -36,8 +36,18 @@ export default function Zone() {
               description={DEFAULT_DESCRIPTION}
               posX={posX}
               posY={posY}
+              editCard={editCard}
+              deleteCard={deleteCard}
         />]
     })
+  }
+
+  const editCard = (cardId) => {
+    console.log(cardId)
+  }
+
+  const deleteCard = (cardId) => {
+    console.log(cardId)
   }
 
   return (
