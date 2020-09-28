@@ -13,7 +13,7 @@ const CardComponent = styled.div`
   border: 1px solid black;
   transition: transform 0.1s;
   
-  ${props => props.onDrag && css`
+  ${props => props.dragState && css`
     box-shadow: -7px 7px 23px 0px rgba(0,0,0,0.75);
     transform: scale(1.2);
   `}
@@ -24,7 +24,7 @@ function StaticCard(props) {
       <CardComponent ref={props.getRef}
                      x={props.x}
                      y={props.y}
-                     onDrag={props.onDrag}/>
+                     dragState={props.dragState}/>
   );
 }
 
@@ -34,7 +34,7 @@ export default function Card() {
   const [coordinate, setCoordinate] = useState({
     x: 300, y: 300
   })
-  const [onDrag, setOnDrag] = useState(false);
+  const [dragState, setDragState] = useState(false);
 
   return (
       <CardReactable
@@ -47,7 +47,7 @@ export default function Card() {
                 })
             ]
           }}
-          onDragStart={() => setOnDrag(true)}
+          onDragStart={() => setDragState(true)}
           onDragMove={event => {
             const {dx, dy} = event;
             setCoordinate(prev => ({
@@ -55,10 +55,10 @@ export default function Card() {
               y: prev.y + dy
             }))
           }}
-          onDragEnd={() => setOnDrag(false)}
+          onDragEnd={() => setDragState(false)}
           x={coordinate.x}
           y={coordinate.y}
-          onDrag={onDrag}
+          dragState={dragState}
       />
   )
 }
