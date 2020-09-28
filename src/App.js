@@ -2,7 +2,6 @@ import React from 'react';
 import {createGlobalStyle} from "styled-components";
 
 import Header from "./components/Header";
-import Card from "./components/Card";
 import Zone from "./containers/Zone";
 
 const GlobalStyle = createGlobalStyle`
