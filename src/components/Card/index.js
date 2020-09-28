@@ -90,10 +90,10 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
 
         <ContextMenu id={`card_menu_${id}`}>
           <MenuItem data={{card: id}} onClick={handleEdit}>
-            &#128393; Edit
+            <span>&#128393;</span> Edit
           </MenuItem>
           <MenuItem data={{card: id}} onClick={handleDelete}>
-            &#128465; Delete
+            <span>&#128465;</span> Delete
           </MenuItem>
         </ContextMenu>
       </>

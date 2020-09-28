@@ -3,6 +3,7 @@ import styled from "styled-components";
 import reactable from 'reactablejs';
 import { v4 as uuidv4 } from 'uuid';
 import Card from "../../components/Card";
+import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 
 const ZoneWrapper = styled.div`
   width: 100%;
@@ -52,11 +53,28 @@ export default function Zone() {
     }))
   }
 
+  const handleSave = () => {
+    console.log("Saved!")
+  }
+
   return (
-      <ZoneReactable onDoubleTap={(event) => addCard(event.x, event.y)}>
-        <div className="cards-container" style={{width: "100%", height: "100%"}}>
-          {cards.map(card => card)}
-        </div>
-      </ZoneReactable>
+      <>
+        <ContextMenuTrigger id="zone">
+          <ZoneReactable onDoubleTap={(event) => addCard(event.x, event.y)}>
+            <div className="cards-container" style={{width: "100%", height: "100%", userSelect: "none"}}>
+              {cards.map(card => card)}
+            </div>
+          </ZoneReactable>
+        </ContextMenuTrigger>
+
+        <ContextMenu id="zone">
+          <MenuItem data={{card: cards}} onClick={(e) => console.log(e)}>
+            <span>&#10515;</span> Export as JSON
+          </MenuItem>
+          <MenuItem data={{cards: cards}} onClick={handleSave}>
+            <span>&#128190;</span> Save zone
+          </MenuItem>
+        </ContextMenu>
+      </>
   )
 }
