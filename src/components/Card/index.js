@@ -20,6 +20,7 @@ const CardComponent = styled.div.attrs(props => ({
   transform: scale(1.2);
   touch-action: none;
   
+  /* hide too long text */
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 7;
@@ -40,7 +41,7 @@ function StaticCard(props) {
 
 const CardReactable = reactable(StaticCard);
 
-export default function Card() {
+export default function Card({name, description}) {
   const [coordinate, setCoordinate] = useState({
     x: 300, y: 300
   })
@@ -69,8 +70,8 @@ export default function Card() {
           x={coordinate.x}
           y={coordinate.y}
           dragState={dragState}
-          name={"Default name"}
-          description={"Default description that is way too long, because I'm talking about anything, everytime, everywhere. I can talk like that for hours. I always think I haven't talk since it's been years."}
+          name={name}
+          description={description}
       />
   )
 }
