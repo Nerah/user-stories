@@ -4,6 +4,8 @@ import reactable from 'reactablejs';
 import interact from 'interactjs';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
+import '../../react-contextmenu.css';
+
 const CardComponent = styled.div.attrs(props => ({
   style: {
     left: props.x,
@@ -88,10 +90,10 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
 
         <ContextMenu id={`card_menu_${id}`}>
           <MenuItem data={{card: id}} onClick={handleEdit}>
-            Edit
+            &#128393; Edit
           </MenuItem>
           <MenuItem data={{card: id}} onClick={handleDelete}>
-            Delete
+            &#128465; Delete
           </MenuItem>
         </ContextMenu>
       </>
