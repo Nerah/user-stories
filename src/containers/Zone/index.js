@@ -26,17 +26,19 @@ const DEFAULT_DESCRIPTION = "DEFAULT_DESCRIPTION";
 export default function Zone() {
   const [cards, setCards] = useState(INITIAL_CARDS)
 
-  const addCard = () => {
+  const addCard = (posX, posY) => {
     setCards(oldCards =>
         [...oldCards,
           <Card key={uuidv4()}
                 name={DEFAULT_NAME}
                 description={DEFAULT_DESCRIPTION}
+                posX={posX}
+                posY={posY}
           />])
   }
 
   return (
-      <ZoneReactable onDoubleTap={() => addCard()}>
+      <ZoneReactable onDoubleTap={(event) => addCard(event.x, event.y)}>
         {cards.map(card => card)}
       </ZoneReactable>
   )
