@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import reactable from 'reactablejs';
+import interact from 'interactjs';
 
 const CardComponent = styled.div`
   position: absolute;
@@ -10,8 +12,39 @@ const CardComponent = styled.div`
   border: 2px solid black;
 `;
 
-export default function Card() {
+function StaticCard(props) {
   return (
-      <CardComponent x={300} y={300}/>
+      <CardComponent ref={props.getRef} x={props.x} y={props.y}/>
   );
+}
+
+const CardReactable = reactable(StaticCard);
+
+export default function Card() {
+  const [coordinate, setCoordinate] = useState({
+    x: 300, y: 300
+  })
+
+  return (
+      <CardReactable
+          draggable={{
+            inertia: false,
+            modifiers: [
+                interact.modifiers.restrictRect({
+                  restriction: 'parent',
+                  endOnly: true
+                })
+            ]
+          }}
+          onDragMove={event => {
+            const {dx, dy} = event;
+            setCoordinate(prev => ({
+              x: prev.x + dx,
+              y: prev.y + dy
+            }))
+          }}
+          x={coordinate.x}
+          y={coordinate.y}
+      />
+  )
 }

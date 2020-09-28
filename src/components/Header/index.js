@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
   background-color: #282c34;
-  padding-top: 64px;
-  height: 100%;
+  height: 25vh;
   width: 100%;
   display: flex;
   flex-direction: column;
