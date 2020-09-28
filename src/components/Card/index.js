@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import reactable from 'reactablejs';
 import interact from 'interactjs';
 
@@ -10,11 +10,20 @@ const CardComponent = styled.div`
   width: 200px;
   height: 200px;
   border: 2px solid black;
+  transition: transform 0.1s;
+  
+  ${props => props.onDrag && css`
+    box-shadow: -7px 7px 23px 0px rgba(0,0,0,0.75);
+    transform: scale(1.2);
+  `}
 `;
 
 function StaticCard(props) {
   return (
-      <CardComponent ref={props.getRef} x={props.x} y={props.y}/>
+      <CardComponent ref={props.getRef}
+                     x={props.x}
+                     y={props.y}
+                     onDrag={props.onDrag}/>
   );
 }
 
@@ -24,6 +33,7 @@ export default function Card() {
   const [coordinate, setCoordinate] = useState({
     x: 300, y: 300
   })
+  const [onDrag, setOnDrag] = useState(false);
 
   return (
       <CardReactable
@@ -36,6 +46,7 @@ export default function Card() {
                 })
             ]
           }}
+          onDragStart={() => setOnDrag(true)}
           onDragMove={event => {
             const {dx, dy} = event;
             setCoordinate(prev => ({
@@ -43,8 +54,10 @@ export default function Card() {
               y: prev.y + dy
             }))
           }}
+          onDragEnd={() => setOnDrag(false)}
           x={coordinate.x}
           y={coordinate.y}
+          onDrag={onDrag}
       />
   )
 }
