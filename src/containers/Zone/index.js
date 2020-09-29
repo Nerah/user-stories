@@ -25,7 +25,7 @@ const DEFAULT_NAME = "DEFAULT_NAME";
 const DEFAULT_DESCRIPTION = "DEFAULT_DESCRIPTION";
 
 export default function Zone() {
-  const [cards, setCards] = useState(INITIAL_CARDS)
+  const [cards, setCards] = useState(INITIAL_CARDS);
 
   const addCard = (posX, posY) => {
     setCards(oldCards => {
