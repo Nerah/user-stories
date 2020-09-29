@@ -19,11 +19,12 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   const [headerHere, setHeaderHere] = useState(true);
+  const [listId, setListId] = useState("123");
 
   return (
     <div className="App">
       <GlobalStyle/>
-      <Header activation={() => setHeaderHere(!headerHere)}/>
+      <Header activation={() => setHeaderHere(!headerHere)} listId={listId} setListId={setListId}/>
       <Zone height={headerHere ? '75vh' : '100vh'}/>
     </div>
   );
