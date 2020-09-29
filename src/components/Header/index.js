@@ -12,6 +12,7 @@ const Hamburger = styled.span.attrs(props => ({
   font-size: 3em;
   cursor: pointer;
   z-index: 2147483647; /* max possible value */
+  user-select: none;
   
   &:hover {
     color: #ffcf4d !important;
@@ -34,6 +35,7 @@ const HeaderWrapper = styled.div.attrs(props => ({
   color: white;
   width: 100%;
   transition: margin 0.3s;
+  user-select: none;
 `;
 
 export default function Header({ activation }) {
