@@ -6,6 +6,24 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 import '../../react-contextmenu.css';
 
+const CardInput = styled.input`
+    width: 180px;
+`;
+
+const CardTextArea = styled.textarea`
+  height: 130px;
+  width: 180px;
+  padding: 1px 2px;
+  border-width: 2px;
+  border-style: inset;
+  overflow-y: auto;
+  resize: none;
+`;
+
+const CardButton = styled.button`
+  
+`;
+
 const CardComponent = styled.div.attrs(props => ({
   style: {
     left: props.x,
@@ -25,6 +43,7 @@ const CardComponent = styled.div.attrs(props => ({
   
   /* hide too long text */
   overflow: hidden;
+  overflow-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 7;
   -webkit-box-orient: vertical;
@@ -52,9 +71,9 @@ function StaticCard(props) {
                      dragState={props.dragState}>
         {props.editState ?
             <>
-              <input type="text" name="name" value={state.name} onChange={handleChange}/>
-              <textarea name="description" value={state.description} onChange={handleChange}/>
-              <button onClick={props.editQuit}>Edit</button>
+              <CardInput type="text" name="name" value={state.name} onChange={handleChange}/>
+              <CardTextArea name="description" value={state.description} onChange={handleChange}/>
+              <CardButton onClick={props.editQuit}>Edit</CardButton>
             </> :
                 <>
                   <h2>{props.name}</h2>
