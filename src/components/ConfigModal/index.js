@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const CloseIcon = styled.span`
   position: fixed;
   top: 16vh;
-  right: 17vw;
+  right: 16vw;
   font-size: 2em;
   cursor: pointer;
 `;
