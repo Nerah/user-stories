@@ -59,10 +59,6 @@ export default function Zone() {
     }))
   }
 
-  const handleSave = () => {
-    console.log("Saved!", cards);
-  }
-
   return (
       <>
         <ContextMenuTrigger id="zone">
@@ -74,11 +70,14 @@ export default function Zone() {
         </ContextMenuTrigger>
 
         <ContextMenu id="zone">
-          <MenuItem data={{card: cards}} onClick={(e) => console.log(e)}>
-            <span role="img" aria-label="export">&#10515;</span> Export as JSON
+          <MenuItem data={{card: cards}} onClick={(e) => {
+            e.persist();
+            addCard(e.pageX, e.pageY);
+          }}>
+            <span role="img" aria-label="new_card">&#43;</span> New card
           </MenuItem>
-          <MenuItem data={{cards: cards}} onClick={handleSave}>
-            <span role="img" aria-label="save">&#128190;</span> Save zone
+          <MenuItem data={{card: cards}} onClick={(e) => console.log(e)}>
+            <span role="img" aria-label="export">&#10515;</span> Send to Trello
           </MenuItem>
         </ContextMenu>
       </>
