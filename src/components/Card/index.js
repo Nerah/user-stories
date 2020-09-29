@@ -8,6 +8,7 @@ import '../../react-contextmenu.css';
 
 const CardInput = styled.input`
     width: 180px;
+    margin-bottom: 4px;
 `;
 
 const CardTextArea = styled.textarea`
