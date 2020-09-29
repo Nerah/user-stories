@@ -69,10 +69,10 @@ export default function Zone() {
 
         <ContextMenu id="zone">
           <MenuItem data={{card: cards}} onClick={(e) => console.log(e)}>
-            <span>&#10515;</span> Export as JSON
+            <span role="img" aria-label="export">&#10515;</span> Export as JSON
           </MenuItem>
           <MenuItem data={{cards: cards}} onClick={handleSave}>
-            <span>&#128190;</span> Save zone
+            <span role="img" aria-label="save">&#128190;</span> Save zone
           </MenuItem>
         </ContextMenu>
       </>
