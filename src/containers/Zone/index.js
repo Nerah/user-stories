@@ -43,8 +43,14 @@ export default function Zone() {
     })
   }
 
-  const editCard = (cardId) => {
-    console.log(cardId)
+  const editCard = (cardId, newName, newDescr) => {
+    setCards(prevState => prevState.map((card) => {
+      let newCard = card;
+      if (card.props.id === cardId) {
+        newCard = React.cloneElement(card, {name: newName, description: newDescr});
+      }
+      return newCard;
+    }));
   }
 
   const deleteCard = (cardId) => {
@@ -54,7 +60,7 @@ export default function Zone() {
   }
 
   const handleSave = () => {
-    console.log("Saved!")
+    console.log("Saved!", cards);
   }
 
   return (

@@ -31,13 +31,36 @@ const CardComponent = styled.div.attrs(props => ({
 `;
 
 function StaticCard(props) {
+  const [state, setState] = useState({
+    name: props.name,
+    description: props.description
+  });
+
+  const handleChange = (e) => {
+    e.persist();
+    setState(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
+    props.edit(e)
+  }
+
   return (
       <CardComponent ref={props.getRef}
                      x={props.x}
                      y={props.y}
                      dragState={props.dragState}>
-        <h2>{props.name}</h2>
-        <p>{props.description}</p>
+        {props.editState ?
+            <>
+              <input type="text" name="name" value={state.name} onChange={handleChange}/>
+              <textarea name="description" value={state.description} onChange={handleChange}/>
+              <button onClick={props.editQuit}>Edit</button>
+            </> :
+                <>
+                  <h2>{props.name}</h2>
+                  <p>{props.description}</p>
+                </>
+        }
       </CardComponent>
   );
 }
@@ -49,13 +72,31 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
     x: posX, y: posY
   })
   const [dragState, setDragState] = useState(false);
+  const [editState, setEditState] = useState(false);
+  const [cardContent, setCardContent] = useState({
+    name: name,
+    description: description
+  })
 
-  const handleEdit = (e, data) => {
-    editCard(data.card);
+  const onEditEnter = () => {
+    setEditState(true);
+  }
+
+  const onEditQuit = () => {
+    setEditState(false);
   }
 
   const handleDelete = (e, data) => {
     deleteCard(data.card);
+  }
+
+  const edit = (e) => {
+    e.persist();
+    setCardContent(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
+    editCard(id, cardContent.name, cardContent.description);
   }
 
   return (
@@ -83,13 +124,16 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
               x={coordinate.x}
               y={coordinate.y}
               dragState={dragState}
-              name={name}
-              description={description}
+              name={cardContent.name}
+              description={cardContent.description}
+              editState={editState}
+              edit={edit}
+              editQuit={onEditQuit}
           />
         </ContextMenuTrigger>
 
         <ContextMenu id={`card_menu_${id}`}>
-          <MenuItem data={{card: id}} onClick={handleEdit}>
+          <MenuItem data={{card: id}} onClick={onEditEnter}>
             <span role="img" aria-label="edit">&#128393;</span> Edit
           </MenuItem>
           <MenuItem data={{card: id}} onClick={handleDelete}>
