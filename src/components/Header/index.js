@@ -19,6 +19,24 @@ const Hamburger = styled.span.attrs(props => ({
   }
 `;
 
+const Configuration = styled.span.attrs(props => ({
+  style: {
+    color: props.active ? '#fff' : '#000'
+  }
+}))`
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  font-size: 3em;
+  cursor: pointer;
+  z-index: 2147483647; /* max possible value */
+  user-select: none;
+  
+  &:hover {
+    color: #ffcf4d !important;
+  }
+`;
+
 const HeaderWrapper = styled.div.attrs(props => ({
   style: {
     marginTop: props.active ? 0 : "-25vh"
@@ -46,9 +64,14 @@ export default function Header({ activation }) {
     activation(active);
   }
 
+  const changeConfigModalState = () => {
+    console.log("config")
+  }
+
   return (
       <>
         <Hamburger role="img" aria-label="hamburger" active={active} onClick={changeActiveState}>&#9776;</Hamburger>
+        <Configuration role="img" aria-label="config" active={active} onClick={changeConfigModalState}>&#9881;</Configuration>
         <HeaderWrapper active={active}>
           <h1>User Stories</h1>
         </HeaderWrapper>
