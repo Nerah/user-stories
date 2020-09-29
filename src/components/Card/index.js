@@ -133,7 +133,10 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
                   })
                 ]
               }}
-              onDragStart={() => setDragState(true)}
+              onDragStart={event => {
+                setDragState(true);
+                event.target.style.zIndex = parseInt(new Date().getTime() / 1000);
+              }}
               onDragMove={event => {
                 const {dx, dy} = event;
                 setCoordinate(prev => ({
