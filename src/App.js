@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createGlobalStyle} from "styled-components";
 
 import Header from "./components/Header";
@@ -18,11 +18,13 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const [headerHere, setHeaderHere] = useState(true);
+
   return (
     <div className="App">
       <GlobalStyle/>
-      <Header/>
-      <Zone/>
+      <Header activation={() => setHeaderHere(!headerHere)}/>
+      <Zone height={headerHere ? '75vh' : '100vh'}/>
     </div>
   );
 }

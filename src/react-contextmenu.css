@@ -18,7 +18,7 @@
 .react-contextmenu.react-contextmenu--visible {
   opacity: 1;
   pointer-events: auto;
-  z-index: 2147483647; /* max possible value */
+  z-index: 2147483646; /* max possible value - 1 (behind hamburger) */
 }
 
 .react-contextmenu-item {

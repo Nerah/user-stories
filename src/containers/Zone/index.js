@@ -5,14 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 import Card from "../../components/Card";
 import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 
-const ZoneWrapper = styled.div`
+const ZoneWrapper = styled.div.attrs(props => ({
+  style: {
+    height: props.height
+  }
+}))`
   width: 100%;
-  height: 75vh;
 `;
 
-function StaticZone({children, ...props}) {
+function StaticZone({children, height, ...props}) {
   return (
-      <ZoneWrapper ref={props.getRef}>
+      <ZoneWrapper ref={props.getRef} height={height}>
         {children}
       </ZoneWrapper>
   );
@@ -24,7 +27,7 @@ const INITIAL_CARDS = [];
 const DEFAULT_NAME = "DEFAULT_NAME";
 const DEFAULT_DESCRIPTION = "DEFAULT_DESCRIPTION";
 
-export default function Zone() {
+export default function Zone({ height }) {
   const [cards, setCards] = useState(INITIAL_CARDS);
 
   const addCard = (posX, posY) => {
@@ -62,7 +65,7 @@ export default function Zone() {
   return (
       <>
         <ContextMenuTrigger id="zone" holdToDisplay={-1}>
-          <ZoneReactable onDoubleTap={(event) => addCard(event.x, event.y)}>
+          <ZoneReactable height={height} onDoubleTap={(event) => addCard(event.x, event.y)}>
             <div className="cards-container" style={{width: "100%", height: "100%", userSelect: "none"}}>
               {cards.map(card => card)}
             </div>
