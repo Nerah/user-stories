@@ -61,7 +61,7 @@ export default function Zone() {
 
   return (
       <>
-        <ContextMenuTrigger id="zone">
+        <ContextMenuTrigger id="zone" holdToDisplay={-1}>
           <ZoneReactable onDoubleTap={(event) => addCard(event.x, event.y)}>
             <div className="cards-container" style={{width: "100%", height: "100%", userSelect: "none"}}>
               {cards.map(card => card)}

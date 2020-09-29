@@ -121,7 +121,7 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
 
   return (
       <>
-        <ContextMenuTrigger id={`card_menu_${id}`}>
+        <ContextMenuTrigger id={`card_menu_${id}`} holdToDisplay={-1}>
           <CardReactable
               draggable={{
                 ignoreFrom: 'input, textarea, button',
