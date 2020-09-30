@@ -70,11 +70,11 @@ export const API = {
         .then(res => {
           // ok
           if (res.status === 200) {
-            return res.text()
+            return res.json()
           }
           throw new Error("Card information is not correct...");
         })
-        .then(text => console.log(text))
+        .then(data => data.id)
         .catch(err => console.log(err))
   }
 }

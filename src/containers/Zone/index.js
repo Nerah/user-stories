@@ -35,9 +35,14 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
   }, [zoneCards]);
 
   const addCard = (posX, posY) => {
-    const id = uuidv4();
+    let id = uuidv4();
     const name = DEFAULT_NAME;
     const description = DEFAULT_DESCRIPTION;
+    if (synchronized) {
+      API
+          .createCard(config.list, name, description, config.key, config.token)
+          .then(res => id = res)
+    }
     setCards(oldCards => {
       return [...oldCards,
         {
@@ -48,11 +53,7 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
           posY: posY
         }]
     })
-    if (synchronized) {
-      API
-          .createCard(config.list, name, description, config.key, config.token)
-          .then(() => console.log("created!"))
-    }
+    console.log(id);
   }
 
   const editCard = (cardId, newName, newDescr) => {
