@@ -17,15 +17,22 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const API_URL = "https://api.trello.com/1";
+
 function App() {
   const [headerHere, setHeaderHere] = useState(true);
-  const [listId, setListId] = useState("123");
+  const [cards, setCards] = useState([]);
+
+  const itsRainingCards = (cards) => {
+    setCards(cards);
+  }
 
   return (
     <div className="App">
       <GlobalStyle/>
-      <Header activation={() => setHeaderHere(!headerHere)} listId={listId} setListId={setListId}/>
-      <Zone height={headerHere ? '75vh' : '100vh'}/>
+      <Header activation={() => setHeaderHere(!headerHere)}
+              apiURL={API_URL} itsRainingCards={itsRainingCards}/>
+      <Zone height={headerHere ? '75vh' : '100vh'} zoneCards={cards}/>
     </div>
   );
 }

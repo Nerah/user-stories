@@ -20,6 +20,7 @@ const ModalContainer = styled.div.attrs(props => ({
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 2147483647; /* max possible value */
 `;
 const ModalSection = styled.section`
   position: fixed;

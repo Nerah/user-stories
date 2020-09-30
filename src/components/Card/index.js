@@ -5,6 +5,7 @@ import interact from 'interactjs';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 import '../../react-contextmenu.css';
+import {utilsCard} from "./utils";
 
 const CardInput = styled.input`
     width: 180px;
@@ -30,11 +31,11 @@ const CardComponent = styled.div.attrs(props => ({
     left: props.x,
     top: props.y,
     boxShadow: props.dragState && "-7px 7px 23px 0px rgba(0,0,0,0.75)",
+    width: props.size,
+    height: props.size
   }
 }))`
   position: absolute;
-  width: 200px;
-  height: 200px;
   padding: 3px;
   background-color: #e8ad0c;
   border: 1px solid black;
@@ -69,6 +70,7 @@ function StaticCard(props) {
       <CardComponent ref={props.getRef}
                      x={props.x}
                      y={props.y}
+                     size={props.size}
                      dragState={props.dragState}>
         {props.editState ?
             <>
@@ -87,10 +89,13 @@ function StaticCard(props) {
 
 const CardReactable = reactable(StaticCard);
 
-export default function Card({id, name, description, posX = 300, posY = 300, editCard, deleteCard}) {
-  const [coordinate, setCoordinate] = useState({
-    x: posX, y: posY
-  })
+export default function Card({ id, name, description,
+                               posX = null, posY = null, size = utilsCard.CARD_SIZE,
+                               editCard, deleteCard }) {
+  const position = posX == null || posY == null ?
+      utilsCard.randomPositionInZone()
+      : { x: posX, y: posY }
+  const [coordinate, setCoordinate] = useState(position);
   const [dragState, setDragState] = useState(false);
   const [editState, setEditState] = useState(false);
   const [cardContent, setCardContent] = useState({
@@ -147,6 +152,7 @@ export default function Card({id, name, description, posX = 300, posY = 300, edi
               onDragEnd={() => setDragState(false)}
               x={coordinate.x}
               y={coordinate.y}
+              size={size}
               dragState={dragState}
               name={cardContent.name}
               description={cardContent.description}

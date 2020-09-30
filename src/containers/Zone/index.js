@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import reactable from 'reactablejs';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,34 +23,39 @@ function StaticZone({children, height, ...props}) {
 
 const ZoneReactable = reactable(StaticZone);
 
-const INITIAL_CARDS = [];
 const DEFAULT_NAME = "DEFAULT_NAME";
 const DEFAULT_DESCRIPTION = "DEFAULT_DESCRIPTION";
 
-export default function Zone({ height }) {
-  const [cards, setCards] = useState(INITIAL_CARDS);
+export default function Zone({ height, zoneCards = [] }) {
+  const [cards, setCards] = useState(zoneCards);
+
+  useEffect(() => {
+    setCards(zoneCards);
+  }, [zoneCards]);
 
   const addCard = (posX, posY) => {
     setCards(oldCards => {
       const id = uuidv4();
       return [...oldCards,
-        <Card key={id}
-              id={id}
-              name={DEFAULT_NAME}
-              description={DEFAULT_DESCRIPTION}
-              posX={posX}
-              posY={posY}
-              editCard={editCard}
-              deleteCard={deleteCard}
-        />]
+        {
+          id: id,
+          name: DEFAULT_NAME,
+          description: DEFAULT_DESCRIPTION,
+          posX: posX,
+          posY: posY
+        }]
     })
   }
 
   const editCard = (cardId, newName, newDescr) => {
     setCards(prevState => prevState.map((card) => {
       let newCard = card;
-      if (card.props.id === cardId) {
-        newCard = React.cloneElement(card, {name: newName, description: newDescr});
+      if (card.id === cardId) {
+        newCard = {
+          id: cardId,
+          name: newName,
+          description: newDescr
+        }
       }
       return newCard;
     }));
@@ -58,7 +63,7 @@ export default function Zone({ height }) {
 
   const deleteCard = (cardId) => {
     setCards(prevState => prevState.filter((card) => {
-      return card.props.id !== cardId
+      return card.id !== cardId
     }))
   }
 
@@ -67,7 +72,14 @@ export default function Zone({ height }) {
         <ContextMenuTrigger id="zone" holdToDisplay={-1}>
           <ZoneReactable height={height} onDoubleTap={(event) => addCard(event.x, event.y)}>
             <div className="cards-container" style={{width: "100%", height: "100%", userSelect: "none"}}>
-              {cards.map(card => card)}
+              {cards.map(card => <Card key={card.id}
+                                       id={card.id}
+                                       name={card.name}
+                                       description={card.description}
+                                       posX={card.posX}
+                                       posY={card.posY}
+                                       editCard={editCard}
+                                       deleteCard={deleteCard}/>)}
             </div>
           </ZoneReactable>
         </ContextMenuTrigger>
