@@ -4,6 +4,7 @@ import ConfigModal from "../ConfigModal";
 import {API} from "../../api";
 
 const InteractiveIcon = styled.span.attrs(props => ({
+  role: "img",
   style: {
     color: props.active ? '#fff' : '#000'
   }
@@ -186,9 +187,9 @@ export default function Header({ activation,
 
   return (
       <>
-        <Hamburger role="img" aria-label="hamburger" active={active} onClick={changeActiveState}>&#9776;</Hamburger>
-        <Configuration role="img" aria-label="config" active={active} onClick={toggleConfig}>&#9881;</Configuration>
-        <SynchronizeAPI role="img" aria-label="synchronizeAPI" active={active} readyToSynchronize={readyToSynchronize} onClick={synchronizeAPI}>&#128472;</SynchronizeAPI>
+        <Hamburger aria-label="hamburger" active={active} onClick={changeActiveState}>&#9776;</Hamburger>
+        <Configuration aria-label="config" active={active} onClick={toggleConfig}>&#9881;</Configuration>
+        <SynchronizeAPI aria-label="synchronizeAPI" active={active} readyToSynchronize={readyToSynchronize} onClick={synchronizeAPI}>&#128472;</SynchronizeAPI>
         <HeaderWrapper active={active}>
           <h1>User Stories</h1>
         </HeaderWrapper>
