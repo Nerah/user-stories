@@ -75,7 +75,7 @@ export const API = {
           throw new Error("Card information is not correct...");
         })
         .then(data => data.id)
-        .catch(err => console.log(err))
+        .catch(() => null)
   },
   updateCard(cardId, name, description, key, token) {
     return fetch(`${API_URL}/cards/${cardId}?name=${name}&desc=${description}&key=${key}&token=${token}`, {
@@ -88,8 +88,7 @@ export const API = {
           }
           throw new Error("Card information is not correct...");
         })
-        .then(data => console.log(data.name))
-        .catch(err => console.log(err))
+        .catch(() => null)
   },
   deleteCard(cardId, key, token) {
     return fetch(`${API_URL}/cards/${cardId}?key=${key}&token=${token}`, {
@@ -102,7 +101,6 @@ export const API = {
           }
           throw new Error("Card information is not correct...");
         })
-        .then(data => console.log(data.name))
-        .catch(err => console.log(err))
+        .catch(() => null)
   }
 }

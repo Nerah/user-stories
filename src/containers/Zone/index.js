@@ -117,9 +117,6 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
           }}>
             <span role="img" aria-label="new_card">&#43;</span> New card
           </MenuItem>
-          <MenuItem data={{card: cards}} onClick={(e) => console.log(e)}>
-            <span role="img" aria-label="export">&#10146;</span> Send to Trello
-          </MenuItem>
         </ContextMenu>
       </>
   )

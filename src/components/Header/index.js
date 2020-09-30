@@ -96,10 +96,7 @@ export default function Header({ activation,
         API
             .getUserBoards(config.key, config.token)
             .then(data => setBoards(data))
-            .catch(err => {
-              setBoards([]);
-              console.error(err);
-            });
+            .catch(() => setBoards([]));
       }
     }
 
@@ -111,10 +108,7 @@ export default function Header({ activation,
         API
             .getBoardLists(config.board, config.key, config.token)
             .then(data => setLists(data))
-            .catch(err => {
-              setLists([]);
-              console.error(err);
-            });
+            .catch(() => setLists([]));
       }
     }
 
@@ -129,10 +123,7 @@ export default function Header({ activation,
               setCards(data);
               setReadyToSynchronize(true);
             })
-            .catch(err => {
-              setCards([]);
-              console.error(err);
-            });
+            .catch(() => setCards([]));
       }
     }
 
@@ -144,7 +135,7 @@ export default function Header({ activation,
       await APIRequestListCards();
     }
 
-    callAPI().then(() => console.log("callAPI : over"));
+    callAPI().then(() => null);
   }, [config, setReadyToSynchronize, setSynchronized]);
 
   const changeActiveState = () => {
