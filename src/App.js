@@ -20,6 +20,13 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   const [headerHere, setHeaderHere] = useState(true);
   const [cards, setCards] = useState([]);
+  const [config, setConfig] = useState({
+    key: '',
+    token: '',
+    board: '',
+    list: ''
+  })
+  const [synchronized, setSynchronized] = useState(false);
 
   const itsRainingCards = (cards) => {
     setCards(cards);
@@ -29,8 +36,13 @@ function App() {
     <div className="App">
       <GlobalStyle/>
       <Header activation={() => setHeaderHere(!headerHere)}
+              config={config} setConfig={setConfig}
+              setSynchronized={setSynchronized}
               itsRainingCards={itsRainingCards}/>
-      <Zone height={headerHere ? '75vh' : '100vh'} zoneCards={cards}/>
+      <Zone height={headerHere ? '75vh' : '100vh'}
+            config={config}
+            zoneCards={cards}
+            synchronized={synchronized}/>
     </div>
   );
 }

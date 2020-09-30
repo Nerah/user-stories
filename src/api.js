@@ -62,5 +62,19 @@ export const API = {
             }
           })
         })
+  },
+  createCard(listId, name, description, key, token) {
+    return fetch(`${API_URL}/cards?name=${name}&desc=${description}&idList=${listId}&pos=top&key=${key}&token=${token}`, {
+      method: 'POST'
+    })
+        .then(res => {
+          // ok
+          if (res.status === 200) {
+            return res.text()
+          }
+          throw new Error("Card information is not correct...");
+        })
+        .then(text => console.log(text))
+        .catch(err => console.log(err))
   }
 }

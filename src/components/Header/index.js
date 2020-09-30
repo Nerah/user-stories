@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
+import styled, {css, keyframes} from 'styled-components';
 import ConfigModal from "../ConfigModal";
 import {API} from "../../api";
 
@@ -26,9 +26,35 @@ const Configuration = styled(InteractiveIcon)`
   right: 0.3em;
   top: 0.3em;
 `;
+
+const shake = keyframes`
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+`;
+
 const SynchronizeAPI = styled(InteractiveIcon)`
   right: calc(0.3em + 1em);
   top: 0.3em;
+  
+  ${props => props.readyToSynchronize && css`
+    animation: ${shake} 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  `}
 `;
 
 const HeaderWrapper = styled.div.attrs(props => ({
@@ -51,17 +77,12 @@ const HeaderWrapper = styled.div.attrs(props => ({
 `;
 
 export default function Header({ activation,
-                                 user = {key: "", token: ""},
-                                 board = "", list = "",
-                                 itsRainingCards}) {
+                                 config, setConfig,
+                                 itsRainingCards,
+                                 setSynchronized}) {
   const [active, setActive] = useState(true);
+  const [readyToSynchronize, setReadyToSynchronize] = useState(false);
   const [configState, setConfigState] = useState(false);
-  const [config, setConfig] = useState({
-    key: user.key,
-    token: user.token,
-    board: board,
-    list: list
-  });
   const [boards, setBoards] = useState([]);
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState([]);
@@ -104,7 +125,10 @@ export default function Header({ activation,
       } else {
         API
             .getListCards(config.list, config.key, config.token)
-            .then(data => setCards(data))
+            .then(data => {
+              setCards(data);
+              setReadyToSynchronize(true);
+            })
             .catch(err => {
               setCards([]);
               console.error(err);
@@ -113,13 +137,15 @@ export default function Header({ activation,
     }
 
     const callAPI = async() => {
+      setSynchronized(false);
+      setReadyToSynchronize(false);
       await APIRequestUserBoards();
       await APIRequestBoardLists();
       await APIRequestListCards();
     }
 
     callAPI().then(() => console.log("callAPI : over"));
-  }, [config]);
+  }, [config, setReadyToSynchronize, setSynchronized]);
 
   const changeActiveState = () => {
     setActive(!active);
@@ -131,7 +157,12 @@ export default function Header({ activation,
   }
 
   const synchronizeAPI = () => {
-    itsRainingCards(cards);
+    if (readyToSynchronize) {
+      itsRainingCards(cards);
+      setSynchronized(true);
+      setReadyToSynchronize(false);
+    }
+
   }
 
   const hideConfig = () => {
@@ -166,7 +197,7 @@ export default function Header({ activation,
       <>
         <Hamburger role="img" aria-label="hamburger" active={active} onClick={changeActiveState}>&#9776;</Hamburger>
         <Configuration role="img" aria-label="config" active={active} onClick={toggleConfig}>&#9881;</Configuration>
-        <SynchronizeAPI role="img" aria-label="synchronizeAPI" active={active} onClick={synchronizeAPI}>&#128472;</SynchronizeAPI>
+        <SynchronizeAPI role="img" aria-label="synchronizeAPI" active={active} readyToSynchronize={readyToSynchronize} onClick={synchronizeAPI}>&#128472;</SynchronizeAPI>
         <HeaderWrapper active={active}>
           <h1>User Stories</h1>
         </HeaderWrapper>
