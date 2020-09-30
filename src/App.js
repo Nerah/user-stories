@@ -17,8 +17,6 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const API_URL = "https://api.trello.com/1";
-
 function App() {
   const [headerHere, setHeaderHere] = useState(true);
   const [cards, setCards] = useState([]);
@@ -31,7 +29,7 @@ function App() {
     <div className="App">
       <GlobalStyle/>
       <Header activation={() => setHeaderHere(!headerHere)}
-              apiURL={API_URL} itsRainingCards={itsRainingCards}/>
+              itsRainingCards={itsRainingCards}/>
       <Zone height={headerHere ? '75vh' : '100vh'} zoneCards={cards}/>
     </div>
   );

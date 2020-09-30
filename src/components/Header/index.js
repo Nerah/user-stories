@@ -50,7 +50,7 @@ const HeaderWrapper = styled.div.attrs(props => ({
   user-select: none;
 `;
 
-export default function Header({ activation, apiURL,
+export default function Header({ activation,
                                  user = {key: "", token: ""},
                                  board = "", list = "",
                                  itsRainingCards}) {
@@ -77,10 +77,6 @@ export default function Header({ activation, apiURL,
             .then(data => setBoards(data))
             .catch(err => {
               setBoards([]);
-              setConfig(prevState => ({
-                ...prevState,
-                board: ""
-              }))
               console.error(err);
             });
       }
@@ -96,10 +92,6 @@ export default function Header({ activation, apiURL,
             .then(data => setLists(data))
             .catch(err => {
               setLists([]);
-              setConfig(prevState => ({
-                ...prevState,
-                list: ""
-              }))
               console.error(err);
             });
       }
@@ -115,10 +107,6 @@ export default function Header({ activation, apiURL,
             .then(data => setCards(data))
             .catch(err => {
               setCards([]);
-              setConfig(prevState => ({
-                ...prevState,
-                list: ""
-              }))
               console.error(err);
             });
       }
@@ -129,8 +117,9 @@ export default function Header({ activation, apiURL,
       await APIRequestBoardLists();
       await APIRequestListCards();
     }
+
     callAPI().then(() => console.log("callAPI : over"));
-  }, [apiURL, config]);
+  }, [config]);
 
   const changeActiveState = () => {
     setActive(!active);
@@ -151,10 +140,26 @@ export default function Header({ activation, apiURL,
 
   const handleChange = async (e) => {
     e.persist();
-    setConfig(prevState => ({
-      ...prevState,
-      [e.target.id]: e.target.value
-    }));
+    const idTarget = e.target.id;
+    if (idTarget === "key" || idTarget === "token") {
+      setConfig(prevState => ({
+        ...prevState,
+        [e.target.id]: e.target.value,
+        board: "",
+        list: ""
+      }));
+    } else if (idTarget === "board") {
+      setConfig(prevState => ({
+        ...prevState,
+        [e.target.id]: e.target.value,
+        list: ""
+      }));
+    } else if (idTarget === "list") {
+      setConfig(prevState => ({
+        ...prevState,
+        [e.target.id]: e.target.value
+      }));
+    }
   }
 
   return (
@@ -186,25 +191,25 @@ export default function Header({ activation, apiURL,
                     <option key="" value=""/>
                     {boards.map(board => <option key={board.id} value={board.id}>{board.name}</option>)}
                   </select>
+                  {
+                    lists.length > 0 &&
+                    <>
+                      <label htmlFor="list">Select the list you want</label>
+                      <select id="list" onChange={handleChange} value={config.list}>
+                        <option key="" value=""/>
+                        {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
+                      </select>
+                      {
+                        config.list !== "" &&
+                        <div>
+                          This list contains {cards.length} card{cards.length > 1 && 's'}.<br/>
+                          If you want to refresh the view, click on the synchronous icon,
+                          right next to the configuration button.
+                        </div>
+                      }
+                    </>
+                  }
                 </>
-          }
-          {
-            lists.length > 0 &&
-            <>
-              <label htmlFor="list">Select the list you want</label>
-              <select id="list" onChange={handleChange} value={config.list}>
-                <option key="" value=""/>
-                {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
-              </select>
-            </>
-          }
-          {
-            cards.length > 0 &&
-                <div>
-                  This list contains {cards.length} card{cards.length > 1 && 's'}!<br/>
-                  If you want to refresh the view, click on the synchronous icon,
-                  right next to the configuration button.
-                </div>
           }
         </ConfigModal>
       </>
