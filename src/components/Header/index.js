@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import ConfigModal from "../ConfigModal";
+import {API} from "../../api";
 
 const InteractiveIcon = styled.span.attrs(props => ({
   style: {
@@ -71,25 +72,8 @@ export default function Header({ activation, apiURL,
       if (config.key === "" || config.token === "") {
         setBoards([]);
       } else {
-        fetch(`${apiURL}/members/me/boards?key=${config.key}&token=${config.token}`, {
-          method: 'GET'
-        })
-            .then(res => {
-              // ok
-              if (res.status === 200) {
-                return res.json()
-              }
-              throw new Error("User information is not correct...");
-            })
-            .then(data => data.filter(board => !board.closed))
-            .then(data => {
-              return data.map(board => {
-                return {
-                  id: board.id,
-                  name: board.name
-                }
-              });
-            })
+        API
+            .getUserBoards(config.key, config.token)
             .then(data => setBoards(data))
             .catch(err => {
               setBoards([]);
@@ -107,25 +91,8 @@ export default function Header({ activation, apiURL,
       if (config.key === "" || config.token === "" || config.board === "") {
         setLists([]);
       } else {
-        fetch(`${apiURL}/boards/${config.board}/lists?key=${config.key}&token=${config.token}`, {
-          method: 'GET'
-        })
-            .then(res => {
-              // ok
-              if (res.status === 200) {
-                return res.json()
-              }
-              throw new Error("Board information is not correct...");
-            })
-            .then(data => data.filter(board => !board.closed))
-            .then(data => {
-              return data.map(list => {
-                return {
-                  id: list.id,
-                  name: list.name
-                }
-              })
-            })
+        API
+            .getBoardLists(config.board, config.key, config.token)
             .then(data => setLists(data))
             .catch(err => {
               setLists([]);
@@ -143,25 +110,8 @@ export default function Header({ activation, apiURL,
       if (config.key === "" || config.token === "" || config.board === "" || config.list === "") {
         setLists([]);
       } else {
-        fetch(`${apiURL}/lists/${config.list}/cards?key=${config.key}&token=${config.token}`, {
-          method: 'GET'
-        })
-            .then(res => {
-              // ok
-              if (res.status === 200) {
-                return res.json()
-              }
-              throw new Error("List information is not correct...");
-            })
-            .then(data => {
-              return data.map(list => {
-                return {
-                  id: list.id,
-                  name: list.name,
-                  description: list.desc
-                }
-              })
-            })
+        API
+            .getListCards(config.list, config.key, config.token)
             .then(data => setCards(data))
             .catch(err => {
               setCards([]);
