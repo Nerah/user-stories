@@ -34,12 +34,12 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
     setCards(zoneCards);
   }, [zoneCards]);
 
-  const addCard = (posX, posY) => {
+  const addCard = async (posX, posY) => {
     let id = uuidv4();
     const name = DEFAULT_NAME;
     const description = DEFAULT_DESCRIPTION;
     if (synchronized) {
-      API
+      await API
           .createCard(config.list, name, description, config.key, config.token)
           .then(res => id = res)
     }
@@ -53,21 +53,33 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
           posY: posY
         }]
     })
-    console.log(id);
   }
 
-  const editCard = (cardId, newName, newDescr) => {
+  const editCard = (cardId, oldName, oldDescription, e) => {
+    e.persist();
+    let newName = oldName;
+    let newDescription = oldDescription;
+    if (e.target.name === "name") {
+      newName = e.target.value;
+    } else {
+      newDescription = e.target.value;
+    }
     setCards(prevState => prevState.map((card) => {
       let newCard = card;
       if (card.id === cardId) {
         newCard = {
           id: cardId,
           name: newName,
-          description: newDescr
+          description: newDescription
         }
       }
       return newCard;
     }));
+    if (synchronized) {
+      API
+          .updateCard(cardId, newName, newDescription, config.key, config.token)
+          .then(() => null)
+    }
   }
 
   const deleteCard = (cardId) => {
@@ -96,7 +108,7 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
         <ContextMenu id="zone">
           <MenuItem data={{card: cards}} onClick={(e) => {
             e.persist();
-            addCard(e.pageX, e.pageY);
+            addCard(e.pageX, e.pageY).then(() => null);
           }}>
             <span role="img" aria-label="new_card">&#43;</span> New card
           </MenuItem>

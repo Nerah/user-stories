@@ -52,18 +52,10 @@ const CardComponent = styled.div.attrs(props => ({
 `;
 
 function StaticCard(props) {
-  const [state, setState] = useState({
-    name: props.name,
-    description: props.description
-  });
 
   const handleChange = (e) => {
     e.persist();
-    setState(prevState => ({
-      ...prevState,
-      [e.target.name]: e.target.value
-    }))
-    props.edit(e)
+    props.edit(e);
   }
 
   return (
@@ -74,8 +66,8 @@ function StaticCard(props) {
                      dragState={props.dragState}>
         {props.editState ?
             <>
-              <CardInput type="text" name="name" value={state.name} onChange={handleChange}/>
-              <CardTextArea name="description" value={state.description} onChange={handleChange}/>
+              <CardInput type="text" name="name" value={props.name} onChange={handleChange}/>
+              <CardTextArea name="description" value={props.description} onChange={handleChange}/>
               <CardButton onClick={props.editQuit}>Edit</CardButton>
             </> :
                 <>
@@ -98,10 +90,6 @@ export default function Card({ id, name, description,
   const [coordinate, setCoordinate] = useState(position);
   const [dragState, setDragState] = useState(false);
   const [editState, setEditState] = useState(false);
-  const [cardContent, setCardContent] = useState({
-    name: name,
-    description: description
-  })
 
   const onEditEnter = () => {
     setEditState(true);
@@ -117,11 +105,7 @@ export default function Card({ id, name, description,
 
   const edit = (e) => {
     e.persist();
-    setCardContent(prevState => ({
-      ...prevState,
-      [e.target.name]: e.target.value
-    }))
-    editCard(id, cardContent.name, cardContent.description);
+    editCard(id, name, description, e);
   }
 
   return (
@@ -154,8 +138,8 @@ export default function Card({ id, name, description,
               y={coordinate.y}
               size={size}
               dragState={dragState}
-              name={cardContent.name}
-              description={cardContent.description}
+              name={name}
+              description={description}
               editState={editState}
               edit={edit}
               editQuit={onEditQuit}
