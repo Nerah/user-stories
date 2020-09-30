@@ -90,5 +90,19 @@ export const API = {
         })
         .then(data => console.log(data.name))
         .catch(err => console.log(err))
+  },
+  deleteCard(cardId, key, token) {
+    return fetch(`${API_URL}/cards/${cardId}?key=${key}&token=${token}`, {
+      method: 'DELETE'
+    })
+        .then(res => {
+          // ok
+          if (res.status === 200) {
+            return res.json()
+          }
+          throw new Error("Card information is not correct...");
+        })
+        .then(data => console.log(data.name))
+        .catch(err => console.log(err))
   }
 }

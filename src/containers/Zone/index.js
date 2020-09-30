@@ -86,6 +86,11 @@ export default function Zone({ height, zoneCards = [], synchronized = false, con
     setCards(prevState => prevState.filter((card) => {
       return card.id !== cardId
     }))
+    if (synchronized) {
+      API
+          .deleteCard(cardId, config.key, config.token)
+          .then(() => null);
+    }
   }
 
   return (
