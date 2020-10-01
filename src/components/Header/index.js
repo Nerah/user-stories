@@ -1,86 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import styled, {css, keyframes} from 'styled-components';
 import ConfigModal from "../ConfigModal";
 import {API} from "../../api";
+import {Configuration, Hamburger, SynchronizeAPI} from "../Icons";
+import {HeaderWrapper} from "./HeaderWrapper";
+import ListCardIndication from "./ListCardIndication";
+import ListSelection from "./ListSelection";
+import BoardSelection from "./BoardSelection";
+import UserKeysInformation from "./UserKeysInformation";
+import UserKeysInputs from "./UserKeysInputs";
 
-const InteractiveIcon = styled.span.attrs(props => ({
-  role: "img",
-  style: {
-    color: props.active ? '#fff' : '#000'
-  }
-}))`
-  position: absolute;
-  font-size: 3em;
-  cursor: pointer;
-  z-index: 2147483647; /* max possible value */
-  user-select: none;
-  
-  &:hover {
-    color: #ffcf4d !important;
-  }
-`;
-const Hamburger = styled(InteractiveIcon)`
-  left: 0.3em;
-  top: 0.3em;
-`;
-const Configuration = styled(InteractiveIcon)`
-  right: 0.3em;
-  top: 0.3em;
-`;
-
-const shake = keyframes`
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-  
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
-`;
-
-const SynchronizeAPI = styled(InteractiveIcon)`
-  right: calc(0.3em + 1em);
-  top: 0.3em;
-  
-  ${props => props.readyToSynchronize && css`
-    animation: ${shake} 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  `}
-`;
-
-const HeaderWrapper = styled.div.attrs(props => ({
-  style: {
-    marginTop: props.active ? 0 : "-25vh"
-  }
-}))`
-  background-color: #282c34;
-  height: 25vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  width: 100%;
-  transition: margin 0.3s;
-  user-select: none;
-`;
-
-export default function Header({ activation,
-                                 config, setConfig,
-                                 itsRainingCards,
-                                 setSynchronized}) {
+export default function Header({ activation, config, setConfig, itsRainingCards, setSynchronized}) {
   const [active, setActive] = useState(true);
   const [readyToSynchronize, setReadyToSynchronize] = useState(false);
   const [configState, setConfigState] = useState(false);
@@ -195,40 +124,20 @@ export default function Header({ activation,
         </HeaderWrapper>
 
         <ConfigModal show={configState} handleClose={hideConfig}>
-          <label htmlFor="key">User key</label>
-          <input type="text" id="key" value={config.key} onChange={handleChange}/>
-          <label htmlFor="token">User token</label>
-          <input type="text" id="token" value={config.token} onChange={handleChange}/>
-
+          <UserKeysInputs config={config} handleChange={handleChange}/>
           {
             boards.length <= 0 ?
-                <div>
-                  It seems your key or your token is not working, or you don't have any board in your account. <br/>
-                  You can get your key and your token by following the steps once connected here: <br/>
-                  <a href="https://trello.com/app-key">https://trello.com/app-key</a>
-                </div>
+                <UserKeysInformation/>
                 :
                 <>
-                  <label htmlFor="board">Select the board you want</label>
-                  <select id="board" onChange={handleChange} value={config.board}>
-                    <option key="" value=""/>
-                    {boards.map(board => <option key={board.id} value={board.id}>{board.name}</option>)}
-                  </select>
+                  <BoardSelection config={config} boards={boards} handleChange={handleChange}/>
                   {
                     lists.length > 0 &&
                     <>
-                      <label htmlFor="list">Select the list you want</label>
-                      <select id="list" onChange={handleChange} value={config.list}>
-                        <option key="" value=""/>
-                        {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
-                      </select>
+                      <ListSelection config={config} lists={lists} handleChange={handleChange}/>
                       {
                         config.list !== "" &&
-                        <div>
-                          This list contains {cards.length} card{cards.length > 1 && 's'}.<br/>
-                          If you want to refresh the view, click on the synchronous icon,
-                          right next to the configuration button.
-                        </div>
+                        <ListCardIndication cards={cards}/>
                       }
                     </>
                   }
