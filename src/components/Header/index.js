@@ -116,9 +116,9 @@ export default function Header({ activation, config, setConfig, itsRainingCards,
 
   return (
       <>
-        <Hamburger aria-label="hamburger" active={active} onClick={changeActiveState}>&#9776;</Hamburger>
-        <Configuration aria-label="config" active={active} onClick={toggleConfig}>&#9881;</Configuration>
-        <SynchronizeAPI aria-label="synchronizeAPI" active={active} readyToSynchronize={readyToSynchronize} onClick={synchronizeAPI}>&#128472;</SynchronizeAPI>
+        <Hamburger active={active} setActive={changeActiveState}/>
+        <Configuration active={active} toggleConfig={toggleConfig}/>
+        <SynchronizeAPI active={active} readyToSynchronize={readyToSynchronize} synchronizeAPI={synchronizeAPI}/>
         <HeaderWrapper active={active}>
           <h1>User Stories</h1>
         </HeaderWrapper>

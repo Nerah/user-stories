@@ -1,3 +1,4 @@
+import React from "react";
 import styled, {css, keyframes} from "styled-components";
 import {InteractiveIcon} from "./InteractiveIcon";
 
@@ -19,7 +20,7 @@ const shake = keyframes`
   }
 `;
 
-export const SynchronizeAPI = styled(InteractiveIcon)`
+const SynchronizeAPIStyle = styled(InteractiveIcon)`
   right: calc(0.3em + 1em);
   top: 0.3em;
   
@@ -30,3 +31,9 @@ export const SynchronizeAPI = styled(InteractiveIcon)`
     perspective: 1000px;
   `}
 `;
+
+export const SynchronizeAPI = ({active, readyToSynchronize, synchronizeAPI}) => {
+  return (
+      <SynchronizeAPIStyle aria-label="synchronizeAPI" active={active} readyToSynchronize={readyToSynchronize} onClick={synchronizeAPI}>&#128472;</SynchronizeAPIStyle>
+  )
+}
